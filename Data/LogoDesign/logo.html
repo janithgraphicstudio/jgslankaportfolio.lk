@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="Profile.png">
+    <title>Advanced Portfolio Gallery</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --dark-bg: #0a0a0a;
+            --card-bg: #151515;
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+            --border-color: #222;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-light);
+            overflow-x: hidden;
+            
+            /* ADDED BACK: Disable text selection */
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+           /* --- ඔබ ලබාදුන් Aurora Background (z-index වෙනස් කර ඇත) --- */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #080808b2;
+            z-index: -1; /* පිටුපසම ස්ථරය */
+            overflow: hidden;
+            filter: blur(100px);
+        }
+
+        .aurora-bg .aurora-dot {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .aurora-bg .aurora-dot:nth-child(1) {
+            top: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(0, 170, 255, 0.219);
+            animation: float 20s infinite alternate;
+        }
+
+        .aurora-bg .aurora-dot:nth-child(2) {
+            top: 40%;
+            left: 60%;
+            width: 600px;
+            height: 600px;
+            background: rgba(170, 0, 255, 0.123);
+            animation: float 25s infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            100% { transform: translateY(100px) translateX(-100px) rotate(180deg); }
+        }
+
+        /* --- අලුතින් එකතු කල Snow Effect --- */
+        
+        .snow-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Aurora එකට උඩින්, Content එකට යටින් */
+            pointer-events: none; /* Click කිරීමේදී බාධා නොවීම සඳහා */
+        }
+
+        /* හිම අංශු හදන්නේ image නැතුව 'radial-gradient' වලින් */
+
+        /* ලේයර් 1: කුඩා, සෙමින් වැටෙන (දුරින්ම) */
+        .snow-layer-1 {
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.363) 1px, transparent 1.5px);
+            background-size: 200px 200px; /* හිම අංශු අතර පරතරය */
+            animation: snow-fall-1 25s linear infinite;
+        }
+
+        /* ලේයර් 2: මධ්‍යම ප්‍රමාණයේ */
+        .snow-layer-2 {
+            background-image: radial-gradient(circle, rgba(255, 208, 0, 0.267) 2px, transparent 2.5px);
+            background-size: 300px 300px;
+            animation: snow-fall-2 15s linear infinite;
+            animation-delay: -5s; /* ඇനിമේෂන් එක අතරමැදින් පටන් ගැනීමට */
+        }
+
+        /* ලේයර් 3: විශාල, වේගයෙන් වැටෙන (ළඟින්ම) */
+        .snow-layer-3 {
+            background-image: radial-gradient(circle, rgba(0, 102, 255, 0.219) 3px, transparent 4px);
+            background-size: 400px 400px;
+            animation: snow-fall-3 10s linear infinite;
+            animation-delay: -10s; /* ඇനിമේෂන් එක අතරමැදින් පටන් ගැනීමට */
+        }
+
+        /* හිම වැටීම සඳහා Keyframes */
+        @keyframes snow-fall-1 {
+            from { background-position: 0px 0px; }
+            to { background-position: 100px 100vh; } /* 100vh (සම්පූර්ණ උස) + 100px තිරස් චලනය */
+        }
+
+        @keyframes snow-fall-2 {
+            from { background-position: 0px 0px; }
+            to { background-position: -150px 100vh; } /* වෙනස් තිරස් චලනයක් */
+        }
+
+        @keyframes snow-fall-3 {
+            from { background-position: 0px 0px; }
+            to { background-position: 200px 100vh; } /* වෙනස් තිරස් චලනයක් */
+        }
+
+        img {
+            pointer-events: none;
+            user-drag: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            max-width: 100%;
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            
+            /* NEW: For scroll animation */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition-delay: var(--delay, 0s); /* For staggered effect */
+        }
+        
+        /* NEW: Scroll animation trigger */
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NEW: Improved hover with gradient border */
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)) border-box;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) padding-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3 Aspect Ratio */
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        .gallery-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            filter: brightness(0.9);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+            filter: brightness(1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 25px;
+        }
+
+        .gallery-item:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .image-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            transform: translateY(10px);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .image-info {
+            transform: translateY(0);
+        }
+
+        .image-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .image-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        /* NEW: SVG Icon Style */
+        .image-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-light);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.692);
+             backdrop-filter: blur(20px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 95%;
+            max-height: 95%;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 15px;
+            box-shadow: 0 0 80px rgba(102, 126, 234, 0.2);
+        }
+
+        .lightbox-btn {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+        
+        .lightbox-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-close {
+            top: 30px;
+            right: 30px;
+        }
+        
+        .lightbox-close:hover {
+            background: rgba(255, 68, 68, 0.9);
+            transform: rotate(90deg);
+            border-color: #ff4444;
+        }
+        
+        .lightbox-nav {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(102, 126, 234, 0.9);
+            border-color: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 30px;
+        }
+
+        .lightbox-next {
+            right: 30px;
+        }
+
+        .lightbox-info {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 15px 30px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gradient-end); }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5em; }
+            .gallery { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+            .lightbox-btn { width: 45px; height: 45px; }
+            .lightbox-close { top: 20px; right: 20px; }
+            .lightbox-prev { left: 20px; }
+            .lightbox-next { right: 20px; }
+            .lightbox-info { bottom: 20px; font-size: 16px; padding: 12px 25px; }
+        }
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .header { margin-bottom: 30px; }
+            .gallery { grid-template-columns: 1fr; gap: 15px; }
+        }
+        /* ... .lightbox-btn rules ... */
+
+        /* NEW: Back Button Style */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 999; /* Below lightbox (1000) but above gallery */
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(19, 0, 0, 0.9);
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+        /* End of Back Button Style */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5em; }
+            .gallery { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+            
+            /* Add this rule */
+            .back-btn {
+                top: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* **********************************************
+          * අලුතින් එකතු කළ යුතු CSS කොටස
+          **********************************************
+        */
+        .load-more-container {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+            .load-more-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-light);
+            background: black;
+            border: rgb(0, 102, 255) 0.5px solid;
+            padding: 15px 35px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 110, 255, 0.075);
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(11, 3, 58, 0.5);
+            border: rgb(89, 0, 255) 0.5px solid;
+        }
+
+        .load-more-btn:disabled {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+      <div class="aurora-bg">
+        <div class="aurora-dot"></div>
+        <div class="aurora-dot"></div>
+    </div>
+    <div class="snow-layer snow-layer-1"></div>
+    <div class="snow-layer snow-layer-2"></div>
+    <div class="snow-layer snow-layer-3"></div>
+    <button class="back-btn" onclick="history.back()" aria-label="Go back to previous page">
+        <i class="fa-solid fa-house"></i>
+    </button>
+    
+    <div class="header">
+        <h1>Portfolio Gallery</h1>
+    </div>
+
+    <div class="gallery" id="favorite-gallery" style="margin-bottom: 60px;"></div>
+
+    <div class="header" style="margin-bottom: 20px; margin-top: 40px;">
+        <h2 style="font-weight: 600; font-size: 2em;">All Examples</h2>
+    </div>
+    <div class="gallery" id="regular-gallery"></div>
+    <div class="load-more-container" id="load-more-container">
+        <button class="load-more-btn" id="load-more-btn">
+            Load More Examples
+        </button>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-btn lightbox-close" onclick="closeLightbox()" aria-label="Close lightbox">
+            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+        <button class="lightbox-btn lightbox-nav lightbox-prev" onclick="navigateImage(-1)" aria-label="Previous image">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/></svg>
+        </button>
+        <button class="lightbox-btn lightbox-nav lightbox-next" onclick="navigateImage(1)" aria-label="Next image">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 19l6-6-6-6z"/></svg>
+        </button>
+        
+        <div class="lightbox-content" id="lightboxContent"></div>
+        <div class="lightbox-info" id="lightboxInfo"></div>
+    </div>
+
+  <script>
+        // --- ADDED BACK: Your Original Blockers ---
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+            }
+        });
+
+        // --- NEW: SVG Icon for Gallery Item ---
+        const galleryIconSVG = `
+            <i class="fa-solid fa-image"></i>
+        `;
+
+        // --- UPDATED: Image Generation with 'Favorite' and 'Regular' Totals ---
+
+        let currentImageIndex = 0;
+        let intersectionObserver = null;
+        
+        // **********************************************
+        // * START: Load More Variables
+        // **********************************************
+        
+        // එක වරකට load කිරීමට අවශ්‍ය "Regular" පින්තූර ගණන
+        const IMAGES_PER_PAGE = 8;
+        
+        // දැනට load කර ඇති "Regular" පින්තූර ගණන (tracker)
+        let currentRegularImagesLoaded = 0;
+        
+        // **********************************************
+        // * END: Load More Variables
+        // **********************************************
+        
+
+        // --- කරුණාකර මෙම අගයන් දෙක පමණක් වෙනස් කරන්න ---
+
+        // 1. 'Favorite' ෆෝල්ඩරය තුළ ඇති මුළු පින්තූර ගණන
+        // (මෙය එකවර load වේ)
+        const TOTAL_FAVORITE_IMAGES = 6; 
+
+        // 2. ප්‍රධාන ෆෝල්ඩරය තුළ ඇති *මුළු* පින්තූර ගණන
+        // (මෙය කොටස් වශයෙන් load වේ)
+        const TOTAL_REGULAR_IMAGES = 8; // උදා: 8, 8, 8, 6... ලෙස load වේ
+
+        // --------------------------------------------------
+
+
+        const favoriteImages = [];
+        const regularImages = [];
+
+        // 'Favorite' පින්තූර ලැයිස්තුව ස්වයංක්‍රීයව සකසයි
+        for (let i = 1; i <= TOTAL_FAVORITE_IMAGES; i++) {
+            favoriteImages.push({
+                src: `Favorite/${i}.jpg`,
+                title: `<i class="fa-solid fa-heart"></i> Favorite ${i}`
+            });
+        }
+
+        // 'Regular' පින්තූර ලැයිස්තුව ස්වයංක්‍රීයව සකසයි
+        for (let i = 1; i <= TOTAL_REGULAR_IMAGES; i++) {
+            regularImages.push({
+                src: `${i}.jpg`,
+                title: `Example ${i}`
+            });
+        }
+        
+        // Lightbox එක සඳහා *සියලුම* පින්තූර එක ලැයිස්තුවකට දමමු
+        // (මෙය පිටුව load වන විටම සකස් කිරීම වැදගත්)
+        const allImages = [...favoriteImages, ...regularImages];
+
+
+        // --- NEW: Reusable function to render a gallery section ---
+        // (මෙය දැන් gallery එකට අලුත් items එකතු කරයි)
+        function renderGallerySection(targetElementId, imageArray, indexOffset = 0) {
+            const gallery = document.getElementById(targetElementId);
+            if (!gallery) return [];
+            
+            // gallery.innerHTML = ''; <-- මෙම පේළිය ඉවත් කරන ලදී. දැන් මෙය append කරයි.
+            
+            const newItems = []; // අලුතින් එකතු කළ items පමණක් return කිරීමට
+
+            imageArray.forEach((img, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.style.setProperty('--delay', `${(index + indexOffset) * 0.05}s`);
+                
+                const globalIndex = index + indexOffset;
+                item.onclick = () => openLightbox(globalIndex); 
+                
+                item.innerHTML = `
+                    <div class="image-container">
+                        <picture>
+                            <source srcset="${img.src.replace('.jpg')}" type="image">
+                            <img src="${img.src}" alt="${img.title}" loading="lazy" draggable="false">
+                        </picture>
+                        <div class="image-overlay">
+                            <div class="image-info">
+                                <div class="image-title">${img.title}</div>
+                                <div class="image-icon">${galleryIconSVG}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                gallery.appendChild(item);
+                newItems.push(item); // අලුත් item එක ලැයිස්තුවට දමමු
+            });
+            
+            return newItems; // අලුත් items ටික return කරමු
+        }
+        
+        // --- NEW: Scroll Animation Setup ---
+        // (මෙය දැන් පිටතින් initialize කර, අලුත් items observe කිරීමට පාවිච්චි කරයි)
+        function setupIntersectionObserver() {
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            intersectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+        }
+
+        // **********************************************
+        // * START: Load More Function
+        // **********************************************
+        
+        function loadMoreRegularImages() {
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (!loadMoreBtn) return;
+
+            // 1. බොත්තම disable කර text එක වෙනස් කරමු
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.textContent = 'Loading...';
+
+            // 2. ඊළඟට load කළ යුතු පින්තූර කාණ්ඩය ගණනය කරමු
+            const startIndex = currentRegularImagesLoaded;
+            const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, regularImages.length);
+            
+            // 3. එම පින්තූර කාණ්ඩය පමණක් වෙන් කර ගනිමු
+            const imagesToAppend = regularImages.slice(startIndex, endIndex);
+
+            // 4. Lightbox එකට අවශ්‍ය නිවැරදි offset එක ගණනය කරමු
+            // (Favorite පින්තූර ගණන + දැනට load කර ඇති regular පින්තූර ගණන)
+            const lightboxOffset = favoriteImages.length + startIndex;
+
+            // 5. පින්තූර ටික gallery එකට append කරමු
+            // අලුතින් එකතු වූ items ටික `newItems` විචල්‍යයට ගනිමු
+            const newItems = renderGallerySection('regular-gallery', imagesToAppend, lightboxOffset);
+
+            // 6. අලුත් items ටිකට scroll animation එක observe කරමු
+            newItems.forEach(item => intersectionObserver.observe(item));
+
+            // 7. tracker එක update කරමු
+            currentRegularImagesLoaded = endIndex;
+
+            // 8. සියලුම පින්තූර load කර අවසන්දැයි බලමු
+            if (currentRegularImagesLoaded >= regularImages.length) {
+                // ඔව්, අවසන් නම්, බොත්තම සඟවමු
+                loadMoreBtn.style.display = 'none';
+            } else {
+                // නැත්නම්, බොත්තම නැවත සක්‍රීය කරමු
+                loadMoreBtn.disabled = false;
+                loadMoreBtn.textContent = 'Load More Examples';
+            }
+        }
+        
+        // **********************************************
+        // * END: Load More Function
+        // **********************************************
+
+
+        // --- UPDATED: Lightbox Functions (to use global 'allImages' array) ---
+        // (මෙම කොටසේ කිසිදු වෙනසක් අවශ්‍ය නැත, 'allImages' array එක මුලින්ම සෑදූ නිසා)
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const content = document.getElementById('lightboxContent');
+            const info = document.getElementById('lightboxInfo');
+            const img = allImages[index]; 
+            
+            if (!img) return;
+
+            preloadImage(currentImageIndex + 1);
+            preloadImage(currentImageIndex - 1);
+            
+            content.innerHTML = `<img src="${img.src}" alt="${img.title}" draggable="false">`;
+            info.textContent = `${img.title} • ${index + 1} / ${allImages.length}`; 
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function navigateImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex < 0) {
+                currentImageIndex = allImages.length - 1;
+            } else if (currentImageIndex >= allImages.length) {
+                currentImageIndex = 0;
+            }
+            
+            const content = document.getElementById('lightboxContent');
+            content.style.opacity = 0;
+            
+            setTimeout(() => {
+                openLightbox(currentImageIndex);
+                content.style.opacity = 1;
+            }, 150);
+        }
+
+        function preloadImage(index) {
+            let wrappedIndex = index;
+            if (wrappedIndex < 0) {
+                wrappedIndex = allImages.length - 1;
+            } else if (wrappedIndex >= allImages.length) {
+                wrappedIndex = 0;
+            }
+            
+            const img = allImages[wrappedIndex];
+            if (img) {
+                const preloader = new Image();
+                preloader.src = img.src;
+            }
+        }
+
+        // --- Keyboard Navigation & Close ---
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    navigateImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    navigateImage(1);
+                }
+            }
+        });
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // **********************************************
+        // * START: Initial Load (වෙනස් කරන ලදී)
+        // **********************************************
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Intersection Observer එක initialize කරමු
+            setupIntersectionObserver();
+            
+            // 2. Favorite gallery එක පෙන්වමු (සියල්ලම)
+            //    ඒවා `newFavItems` වලට ගනිමු
+            const newFavItems = renderGallerySection('favorite-gallery', favoriteImages, 0);
+            
+            // 3. අලුත් Favorite items ටික observe කරමු
+            newFavItems.forEach(item => intersectionObserver.observe(item));
+            
+            // 4. "Load More" බොත්තමට click event එක සකසමු
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if(loadMoreBtn) {
+                loadMoreBtn.onclick = loadMoreRegularImages;
+            }
+
+            // 5. "Regular" පින්තූර වලින් පළමු කාණ්ඩය load කරමු
+            loadMoreRegularImages();
+            
+            // 6. Regular පින්තූර නැතිනම් button එක සඟවමු
+            if (TOTAL_REGULAR_IMAGES === 0) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+        // **********************************************
+        // * END: Initial Load
+        // **********************************************
+    </script>
+</body>
+</html>
