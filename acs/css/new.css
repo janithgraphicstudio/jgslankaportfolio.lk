@@ -1,1 +1,614 @@
-#process{text-align:center}.process-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:50px}.process-card{background:#00033;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--border-color);border-radius:15px;padding:30px;text-align:center;position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease}.process-card:hover{transform:translateY(-10px);box-shadow:var(--card-hover-shadow);border-color:var(--primary-color)}.process-number{position:absolute;top:15px;right:20px;font-size:2.5rem;font-weight:700;color:rgba(255,255,255,0.05);z-index:1}.process-icon{font-size:2.5rem;color:var(--primary-color);margin-bottom:20px;position:relative;z-index:2}.process-title{font-size:1.4rem;color:var(--text-color);margin-bottom:15px;position:relative;z-index:2}.process-description{color:var(--text-secondary-color);font-size:0.9rem;line-height:1.6;position:relative;z-index:2}#faq .accordion-content-inner p{color:var(--text-secondary-color);line-height:1.7;margin-bottom:15px}#faq .accordion-content-inner ul{list-style:disc;padding-left:20px;color:var(--text-secondary-color);margin-bottom:15px}#faq .accordion-content-inner ul li{margin-bottom:8px}#faq .accordion-content-inner ul li strong{color:var(--text-color)}
+/* ========== My Design Process Section ========== */
+#process {
+    text-align: center;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.process-card {
+    background: #0a0a0a;
+    /* backdrop-filter removed for performance */
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: var(--primary-color);
+}
+
+.process-number {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.05);
+    /* Very subtle number */
+    z-index: 1;
+}
+
+.process-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.process-title {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.process-description {
+    color: var(--text-secondary-color);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+/* ========== FAQ Section (Reusing Price Styles) ========== */
+#faq .accordion-content-inner p {
+    color: var(--text-secondary-color);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+#faq .accordion-content-inner ul {
+    list-style: disc;
+    padding-left: 20px;
+    color: var(--text-secondary-color);
+    margin-bottom: 15px;
+}
+
+#faq .accordion-content-inner ul li {
+    margin-bottom: 8px;
+}
+
+#faq .accordion-content-inner ul li strong {
+    color: var(--text-color);
+}
+
+/* --- About Us Redesign --- */
+#about-me.about-redesign {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 100px 5%;
+    background: #000;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.about-left {
+    flex: 0 0 40%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.about-portrait {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+}
+
+/* රූපයේ යට කොටස කලු පාටට fade වීම සඳහා */
+.portrait-fade {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, #000 10%, transparent 100%);
+}
+
+.about-right {
+    flex: 0 0 55%;
+    text-align: left;
+    color: #fff;
+}
+
+.about-name {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.about-title-blue {
+    color: #0059ff;
+    /* Blue color from image */
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+}
+
+.about-para {
+    color: #a0a0a0;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 50px;
+}
+
+.about-bottom-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.about-info-col,
+.about-skills-col {
+    flex: 1;
+}
+
+.block-heading {
+    font-size: 1rem;
+    color: #fff;
+    border-bottom: 2px solid #0059ff;
+    display: inline-block;
+    padding-bottom: 8px;
+    margin-bottom: 25px;
+}
+
+.custom-table {
+    width: 100%;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+}
+
+.custom-table td {
+    padding: 6px 0;
+    vertical-align: top;
+}
+
+.custom-table td:first-child {
+    width: 130px;
+    color: #a0a0a0;
+    font-weight: 500;
+}
+
+.skills-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.skill-row {
+    width: 100%;
+}
+
+.skill-texts {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.s-name {
+    color: #e0e0e0;
+}
+
+.s-pct {
+    color: #fff;
+}
+
+.s-bar {
+    width: 100%;
+    height: 3px;
+    background: #222;
+    border-radius: 2px;
+}
+
+.s-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0059ff, #6b21a8);
+    /* Blue to Purple Gradient */
+    border-radius: 2px;
+}
+
+.about-social-icons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 35px;
+}
+
+.about-social-icons a {
+    color: #888;
+    font-size: 1.3rem;
+    transition: color 0.3s ease;
+}
+
+.about-social-icons a:hover {
+    color: #0059ff;
+}
+
+/* Mobile Responsive for About Us */
+@media (max-width: 992px) {
+    #about-me.about-redesign {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-right {
+        text-align: center;
+    }
+
+    .about-bottom-grid {
+        flex-direction: column;
+        text-align: left;
+        /* Keep table text left-aligned */
+    }
+
+    .about-social-icons {
+        justify-content: center;
+    }
+}
+
+/* ========== Contact Section Redesign ========== */
+.contact-redesign {
+    padding: 100px 5%;
+    background: #000;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+.contact-form-container {
+    background: #050505;
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form-container .form-group {
+    margin-bottom: 25px;
+}
+
+.contact-form-container input,
+.contact-form-container textarea {
+    width: 100%;
+    background: #0f0f0f;
+    border: 1px solid #222;
+    padding: 15px 20px;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.contact-form-container input:focus,
+.contact-form-container textarea:focus {
+    outline: none;
+    border-color: #0059ff;
+    box-shadow: 0 0 10px rgba(0, 89, 255, 0.2);
+}
+
+.contact-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(90deg, #0059ff, #6b21a8);
+    color: #fff;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: auto;
+}
+
+.contact-submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 89, 255, 0.4);
+}
+
+.contact-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.contact-details-box {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    background: #050505;
+    padding: 35px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.contact-item i {
+    font-size: 1.5rem;
+    color: #0059ff;
+    background: rgba(0, 89, 255, 0.1);
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.contact-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-text span {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.contact-text a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.contact-text a:hover {
+    color: #0059ff;
+}
+
+.contact-map-wrapper {
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    height: 100%;
+    min-height: 250px;
+}
+
+.contact-map-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    filter: invert(90%) hue-rotate(180deg) contrast(80%);
+    transition: filter 0.3s ease;
+}
+
+.contact-map-wrapper:hover iframe {
+    filter: none;
+}
+
+@media (max-width: 992px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-map-wrapper {
+        min-height: 300px;
+    }
+}
+
+/* ========== Portfolio Buy Actions & Price Popup ========== */
+.portfolio-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    width: 100%;
+}
+
+/* ── View All button: fills all remaining space ── */
+.portfolio-actions a.portfolio-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 18px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #e8eeff;
+    background: rgba(0, 89, 255, 0.07);
+    border: 1.5px solid rgba(0, 89, 255, 0.55);
+    border-radius: 10px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.25s ease, border-color 0.25s ease,
+                color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.portfolio-actions a.portfolio-btn:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(0, 89, 255, 0.45);
+    transform: translateY(-2px);
+}
+
+/* ── Buy icon button: fixed square, matches height ── */
+.portfolio-actions .buy-btn {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 160, 0, 0.08);
+    color: #ffc84a;
+    border: 1.5px solid rgba(255, 160, 0, 0.45);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background 0.25s ease, border-color 0.25s ease,
+                color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.portfolio-actions .buy-btn:hover {
+    background: #e08c00;
+    border-color: #ffc84a;
+    color: #fff;
+    box-shadow: 0 0 18px rgba(255, 160, 0, 0.45);
+    transform: translateY(-2px) scale(1.06);
+}
+
+/* Overlay completely removed as requested */
+.price-popup-overlay {
+    display: none;
+}
+
+.price-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background: #111;
+    /* Dark chat bubble background */
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    width: 280px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: all 0.2s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat bubble arrow/pointer */
+.price-popup::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    /* Arrow pointing down */
+    right: 20px;
+    /* Positioned near the button */
+    width: 15px;
+    height: 15px;
+    background: #111;
+    border-right: 1px solid var(--primary-color);
+    border-bottom: 1px solid var(--primary-color);
+    transform: rotate(45deg);
+}
+
+.price-popup.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.price-popup-header {
+    background: rgba(0, 89, 255, 0.1);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px 12px 0 0;
+}
+
+.price-popup-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.price-popup-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.price-popup-close:hover {
+    color: var(--primary-color);
+}
+
+.price-popup-content {
+    padding: 20px;
+}
+
+.price-range {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.price-details {
+    color: #bbb;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    white-space: pre-line;
+}
+
+.price-popup-buy-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #25D366;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.price-popup-buy-btn:hover {
+    background: #128C7E;
+}
+
+@media (max-width: 768px) {
+    /* Kept chat bubble behavior for mobile too, just center it nicely relative to button */
+}
